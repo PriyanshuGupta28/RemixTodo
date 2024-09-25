@@ -2,6 +2,10 @@
 
 - 📖 [Remix docs](https://remix.run/docs)
 
+## Our Advanced Remix Todo Project
+
+![screenshot](/assets/hero.jpeg)
+
 ## Development
 
 Run the dev server:
