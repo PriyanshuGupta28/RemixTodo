@@ -5,7 +5,7 @@
 /* Light and Dark Mode Setup */
 html,
 body {
-  @apply bg-zinc-900 text-zinc-200;
+  @apply bg-black text-zinc-200;
 }
 
 /* Add other element classes as needed for dark mode customization */
