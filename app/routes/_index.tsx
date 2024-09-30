@@ -1,4 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
+
 import HeroSection from "~/components/HeroSection/HeroSection";
 
 export const meta: MetaFunction = () => {
