@@ -1,8 +1,49 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useEffect } from "react";
 import loginimg from "../../assets/loginremovebg.png";
+import toast from "react-hot-toast";
+import { ActionFunction, json } from "@remix-run/node";
+import { connectDB } from "~/db/mongo";
+import { loginUser } from "~/services/login.service";
+import { useFetcher } from "@remix-run/react";
 
-const login: React.FC = () => {
+interface FetchData {
+  success?: string;
+  error?: string;
+}
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  await connectDB();
+  try {
+    // Call loginUser to authenticate the user
+    await loginUser(email, password);
+
+    // Show success message
+    // Redirect to the dashboard or another page after successful login
+    return json({
+      success: `Login successful! Welcome back.`,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Error during login: " + error.message);
+    } else {
+      throw new Error("An unknown error occurred during login");
+    }
+  }
+};
+const Login: React.FC = () => {
+  const fetcher = useFetcher<FetchData>();
+  console.log(fetcher);
+  useEffect(() => {
+    if (fetcher.data?.success) {
+      toast.success(fetcher.data.success);
+    } else if (fetcher.data?.error) {
+      toast.error(fetcher.data.error);
+    }
+  }, [fetcher.data]);
   return (
     <div className="flex w-full bg-zinc-900 flex-wrap text-zinc-200">
       <div className="flex w-full flex-col md:w-1/2">
@@ -19,12 +60,16 @@ const login: React.FC = () => {
             Sign in to your account below.
           </p>
 
-          <form className="flex flex-col items-stretch pt-3 md:pt-8">
+          <fetcher.Form
+            method="post"
+            className="flex flex-col items-stretch pt-3 md:pt-8"
+          >
             <div className="flex flex-col pt-4">
               <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                 <input
                   type="email"
                   id="login-email"
+                  name="email"
                   className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                   placeholder="Email"
                 />
@@ -34,6 +79,7 @@ const login: React.FC = () => {
               <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                 <input
                   type="password"
+                  name="password"
                   id="login-password"
                   className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                   placeholder="Password"
@@ -52,12 +98,12 @@ const login: React.FC = () => {
             >
               Sign in
             </button>
-          </form>
+          </fetcher.Form>
           <div className="py-12 text-left">
             <p className="">
               Don't have an account?
               <a
-                href="/login"
+                href="/register"
                 className="whitespace-nowrap font-semibold text-zinc-400 underline underline-offset-4 ml-2"
               >
                 Sign up for free.
@@ -77,4 +123,4 @@ const login: React.FC = () => {
   );
 };
 
-export default login;
+export default Login;
