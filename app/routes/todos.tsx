@@ -15,6 +15,7 @@ import {
   getAllTodos,
   updateTodo,
 } from "~/services/todo.service";
+import { Vortex } from "~/components/ui/vortex";
 
 export const loader: LoaderFunction = async () => {
   await connectDB();
@@ -77,159 +78,176 @@ export default function TodoPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+    <div className="w-[calc(100%-4rem)] mx-auto rounded-md overflow-hidden">
+      <Vortex
+        backgroundColor="black"
+        rangeY={800}
+        particleCount={500}
+        baseHue={120}
+      >
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold mb-4">Todo List</h1>
 
-      {/* Create Todo Form */}
-      <fetcher.Form method="post" className="space-y-4">
-        <input type="hidden" name="id" />
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          required
-          className="w-full px-3 py-2 border rounded-lg"
-        />
-        <textarea
-          name="desc"
-          placeholder="Description"
-          className="w-full px-3 py-2 border rounded-lg"
-        ></textarea>
-        <select
-          name="status"
-          className="w-full px-3 py-2 border rounded-lg"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
-          <option value="canceled">Canceled</option>
-        </select>
-        <button
-          type="submit"
-          name="_action"
-          value="create"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-        >
-          Add Todo
-        </button>
-      </fetcher.Form>
+          {/* Create Todo Form */}
+          <fetcher.Form method="post" className="space-y-4">
+            <input type="hidden" name="id" />
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              required
+              className="w-full px-3 py-2 border rounded-lg"
+            />
+            <textarea
+              name="desc"
+              placeholder="Description"
+              className="w-full px-3 py-2 border rounded-lg"
+            ></textarea>
+            <select
+              name="status"
+              className="w-full px-3 py-2 border rounded-lg"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="canceled">Canceled</option>
+            </select>
+            <button
+              type="submit"
+              name="_action"
+              value="create"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            >
+              Add Todo
+            </button>
+          </fetcher.Form>
 
-      {/* Todo List Table */}
-      <div className="mt-6 overflow-x-auto rounded-xl bg-zinc-900 text-zinc-200 px-6 shadow lg:px-4">
-        <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2 md:gap-5">
-          <thead className=" border-b lg:table-header-group">
-            <tr>
-              <td className="py-4 text-sm font-semibold text-zinc-200 sm:px-3 whitespace-nowrap">
-                Created At
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                ID
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                Title
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                Description
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                Updated At
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                Status
-              </td>
-              <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
-                Actions
-              </td>
-            </tr>
-          </thead>
-          <tbody className="bg-zinc-800 lg:border-zinc-200 text-zinc-200">
-            {todos?.map((todo, index) => (
-              <tr key={index}>
-                <td className="py-4 text-sm sm:px-3">{todo?.createdAt}</td>
-                <td className="py-4 text-sm sm:px-3">{index + 1}</td>
-                <td className="py-4 text-sm sm:px-3">{todo?.title}</td>
-                <td className="py-4 text-sm sm:px-3">{todo?.desc}</td>
-                <td className="py-4 text-sm sm:px-3">{todo?.updatedAt}</td>
-                <td className="py-4 text-sm sm:px-3">{todo?.status}</td>
-                <td className="py-4 text-sm flex gap-3">
+          {/* Todo List Table */}
+          <div className="mt-6 overflow-x-auto rounded-xl text-zinc-200  shadow lg:px-4">
+            <table
+              className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2 md:gap-5"
+              style={{
+                background: "rgba(28,30,39,0.5)",
+                WebkitBackdropFilter: "blur(7px)",
+                backdropFilter: "blur(5px)",
+                border: "1px solid rgba(43,50,87,0.25)",
+              }}
+            >
+              <thead className="border-b lg:table-header-group">
+                <tr>
+                  <td className="py-4 text-sm font-semibold text-zinc-200 sm:px-3 whitespace-nowrap">
+                    Created At
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    ID
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    Title
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    Description
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    Updated At
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    Status
+                  </td>
+                  <td className="py-4 text-sm font-medium sm:px-3 whitespace-nowrap">
+                    Actions
+                  </td>
+                </tr>
+              </thead>
+              <tbody className=" lg:border-zinc-200 text-zinc-200">
+                {todos?.map((todo, index) => (
+                  <tr key={index}>
+                    <td className="py-4 text-sm sm:px-3">{todo?.createdAt}</td>
+                    <td className="py-4 text-sm sm:px-3">{index + 1}</td>
+                    <td className="py-4 text-sm sm:px-3">{todo?.title}</td>
+                    <td className="py-4 text-sm sm:px-3">{todo?.desc}</td>
+                    <td className="py-4 text-sm sm:px-3">{todo?.updatedAt}</td>
+                    <td className="py-4 text-sm sm:px-3">{todo?.status}</td>
+                    <td className="py-4 text-sm flex gap-3">
+                      <button
+                        type="button"
+                        className="bg-gradient-to-r from-emerald-300 to-blue-500 px-4 py-2 text-white rounded-lg"
+                        onClick={() => handleUpdateClick(todo)}
+                      >
+                        Update
+                      </button>
+                      <fetcher.Form method="post">
+                        <input type="hidden" name="id" value={todo._id} />
+                        <button
+                          type="submit"
+                          name="_action"
+                          value="delete"
+                          className="border border-zinc-100 px-4 py-2"
+                        >
+                          Delete
+                        </button>
+                      </fetcher.Form>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Modal for Update Todo */}
+          {isOpen && selectedTodo && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-zinc-800 rounded-lg p-6 w-96">
+                <h2 className="text-xl font-bold mb-4">Update Todo</h2>
+                <fetcher.Form
+                  method="post"
+                  className="space-y-4"
+                  onSubmit={closeModal}
+                >
+                  <input type="hidden" name="id" value={selectedTodo._id} />
+                  <input
+                    type="text"
+                    name="title"
+                    defaultValue={selectedTodo?.title}
+                    required
+                    className="w-full px-3 py-2 border rounded-lg text-zinc-900"
+                  />
+                  <textarea
+                    name="desc"
+                    defaultValue={selectedTodo?.desc}
+                    className="w-full px-3 py-2 border rounded-lg text-zinc-900"
+                  ></textarea>
+                  <select
+                    name="status"
+                    className="w-full px-3 py-2 border rounded-lg text-zinc-900"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="canceled">Canceled</option>
+                  </select>
+                  <button
+                    type="submit"
+                    name="_action"
+                    value="update"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                  >
+                    Save
+                  </button>
                   <button
                     type="button"
-                    className="bg-gradient-to-r from-emerald-300 to-blue-500 px-4 py-2 text-white rounded-lg"
-                    onClick={() => handleUpdateClick(todo)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg ml-4"
+                    onClick={closeModal}
                   >
-                    Update
+                    Cancel
                   </button>
-                  <fetcher.Form method="post">
-                    <input type="hidden" name="id" value={todo._id} />
-                    <button
-                      type="submit"
-                      name="_action"
-                      value="delete"
-                      className="border border-zinc-100 px-4 py-2"
-                    >
-                      Delete
-                    </button>
-                  </fetcher.Form>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Modal for Update Todo */}
-      {isOpen && selectedTodo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-zinc-800 rounded-lg p-6 w-96">
-            <h2 className="text-xl font-bold mb-4">Update Todo</h2>
-            <fetcher.Form
-              method="post"
-              className="space-y-4"
-              onSubmit={closeModal}
-            >
-              <input type="hidden" name="id" value={selectedTodo._id} />
-              <input
-                type="text"
-                name="title"
-                defaultValue={selectedTodo?.title}
-                required
-                className="w-full px-3 py-2 border rounded-lg text-zinc-900"
-              />
-              <textarea
-                name="desc"
-                defaultValue={selectedTodo?.desc}
-                className="w-full px-3 py-2 border rounded-lg text-zinc-900"
-              ></textarea>
-              <select
-                name="status"
-                className="w-full px-3 py-2 border rounded-lg text-zinc-900"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-                <option value="canceled">Canceled</option>
-              </select>
-              <button
-                type="submit"
-                name="_action"
-                value="update"
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg ml-4"
-                onClick={closeModal}
-              >
-                Cancel
-              </button>
-            </fetcher.Form>
-          </div>
+                </fetcher.Form>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </Vortex>
     </div>
   );
 }
