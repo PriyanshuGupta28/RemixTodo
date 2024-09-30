@@ -16,6 +16,7 @@ import {
   updateTodo,
 } from "~/services/todo.service";
 import { Vortex } from "~/components/ui/vortex";
+import { Button } from "~/components/ui/button";
 
 export const loader: LoaderFunction = async () => {
   await connectDB();
@@ -57,6 +58,7 @@ export default function TodoPage() {
   const [status, setStatus] = useState("pending");
   const [isOpen, setIsOpen] = useState(false);
   const fetcher = useFetcher(); // Use this to detect form submission status
+  const [isAddOpen, setIsAddOpen] = useState(false); // New state for Add Todo modal
   const [selectedTodo, setSelectedTodo] = useState(null);
   useEffect(() => {
     if (fetcher.state === "submitting") {
@@ -81,6 +83,9 @@ export default function TodoPage() {
     setIsOpen(false);
     setSelectedTodo(null); // Reset after closing modal
   };
+  const closeAddModal = () => {
+    setIsAddOpen(false);
+  };
 
   return (
     <div className="w-[calc(100%-4rem)] mx-auto rounded-md overflow-hidden">
@@ -90,43 +95,21 @@ export default function TodoPage() {
         particleCount={500}
         baseHue={120}
       >
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+        <div className="container p-4">
+          <h1 className="text-2xl font-bold mb-4 text-center">
+            <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent font-bold">
+              Todo List
+            </span>
+          </h1>
 
-          {/* Create Todo Form */}
-          <fetcher.Form method="post" className="space-y-4">
-            <input type="hidden" name="id" />
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              required
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-            <textarea
-              name="desc"
-              placeholder="Description"
-              className="w-full px-3 py-2 border rounded-lg"
-            ></textarea>
-            <select
-              name="status"
-              className="w-full px-3 py-2 border rounded-lg"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="canceled">Canceled</option>
-            </select>
+          <div className="flex justify-end">
             <button
-              type="submit"
-              name="_action"
-              value="create"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+              onClick={() => setIsAddOpen(true)}
+              className="bg-transparent text-white px-4 py-2 rounded-lg border border-zinc-100 hover:bg-zinc-500 hover:border-transparent transition duration-300 "
             >
-              Add Todo
+              Add New Todo
             </button>
-          </fetcher.Form>
+          </div>
 
           {/* Todo List Table */}
           <div className="mt-6 overflow-x-auto rounded-xl text-zinc-200  shadow lg:px-4">
@@ -198,6 +181,75 @@ export default function TodoPage() {
               </tbody>
             </table>
           </div>
+          {/* Add Todo Modal */}
+          {isAddOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+              <div
+                className="bg-zinc-800 rounded-lg p-6 w-96"
+                style={{
+                  background: "rgba(28,30,39,0.5)",
+                  WebkitBackdropFilter: "blur(7px)",
+                  backdropFilter: "blur(2px)",
+                  border: "1px solid rgba(43,50,87,0.25)",
+                }}
+              >
+                <h2 className="text-xl font-bold mb-4">Add New Todo</h2>
+                <fetcher.Form
+                  method="post"
+                  className="space-y-4"
+                  onSubmit={closeAddModal}
+                >
+                  <input type="hidden" name="id" />
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    required
+                    className="w-full px-3 py-2 border rounded-lg text-zinc-100 bg-transparent "
+                  />
+                  <textarea
+                    name="desc"
+                    placeholder="Description"
+                    className="w-full px-3 py-2 border rounded-lg text-zinc-900 bg-transparent "
+                  ></textarea>
+                  <div className="flex flex-col space-y-2">
+                    <label
+                      htmlFor="status"
+                      className="text-sm font-medium text-gray-300"
+                    >
+                      Status
+                    </label>
+                    <select
+                      id="status"
+                      name="status"
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-gray-700 text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="completed">Completed</option>
+                      <option value="canceled">Canceled</option>
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    name="_action"
+                    value="create"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg ml-4"
+                    onClick={closeAddModal}
+                  >
+                    Cancel
+                  </button>
+                </fetcher.Form>
+              </div>
+            </div>
+          )}
 
           {/* Modal for Update Todo */}
           {isOpen && selectedTodo && (
