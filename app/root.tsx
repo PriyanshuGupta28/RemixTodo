@@ -37,7 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Navbar />
         {children}
         <Footer />
-        <Toaster position="bottom-right" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
         <ScrollRestoration />
         <Scripts />
       </body>
