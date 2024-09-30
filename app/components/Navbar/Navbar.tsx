@@ -5,7 +5,15 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
-    <header className="mb-2 px-4 shadow  text-zinc-100 border-b z-50 sticky top-0 bg-zinc-900">
+    <header
+      className="mb-2 px-4 shadow  text-zinc-100 border-b z-50 sticky top-0 "
+      style={{
+        background: "rgba(28,30,39,0.5)",
+        WebkitBackdropFilter: "blur(7px)",
+        backdropFilter: "blur(7px)",
+        border: "1px solid rgba(43,50,87,0.25)",
+      }}
+    >
       <div className="relative mx-auto flex max-w-screen-xl flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
         <Link className="flex items-center text-2xl font-black" to={"/"}>
           <span className="mr-2 text-3xl text-blue-600">
