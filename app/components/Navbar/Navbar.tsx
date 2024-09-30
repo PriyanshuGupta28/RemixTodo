@@ -1,7 +1,9 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import React from "react";
 
 const Navbar: React.FC = () => {
+  const location = useLocation();
+
   return (
     <header className="mb-2 px-4 shadow  text-zinc-100 border-b z-50 sticky top-0 bg-zinc-900">
       <div className="relative mx-auto flex max-w-screen-xl flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -23,8 +25,7 @@ const Navbar: React.FC = () => {
             </svg>
           </span>
           <span className="text-2xl bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent font-bold">
-            {" "}
-            RemixTodo .{" "}
+            RemixTodo .
           </span>
         </Link>
         <input className="peer hidden" type="checkbox" id="navbar-open" />
@@ -52,30 +53,19 @@ const Navbar: React.FC = () => {
         >
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
-              <a
-                className="text-white hover:bg-gradient-to-r hover:from-green-400 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent transition ease-in-out duration-300"
-                href="/"
+              <Link
+                className={`text-white transition ease-in-out duration-300 hover:bg-gradient-to-r hover:from-green-400 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent ${
+                  location.pathname === "/todos"
+                    ? "bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent font-bold"
+                    : ""
+                }`}
+                to="/todos"
               >
-                Pricing
-              </a>
+                Todos
+              </Link>
             </li>
-            <li className="">
-              <a
-                className="text-white hover:bg-gradient-to-r hover:from-green-400 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent transition ease-in-out duration-300"
-                href="/"
-              >
-                Pricing
-              </a>
-            </li>
-            <li className="">
-              <a
-                className="text-white hover:bg-gradient-to-r hover:from-green-400 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent transition ease-in-out duration-300"
-                href="/"
-              >
-                Pricing
-              </a>
-            </li>
-            <li className="mt-2 sm:mt-0  ">
+
+            <li className="mt-2 sm:mt-0">
               <Link
                 className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white transition ease-in-out duration-300"
                 to={"/login"}
