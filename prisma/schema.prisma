@@ -1,0 +1,18 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "mongodb"
+  url      = env("ATLAS_DATABASE_URL") // Make sure to add your MongoDB connection string in .env
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Test {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName String
+  email    String   @unique
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
