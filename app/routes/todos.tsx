@@ -59,8 +59,13 @@ export default function TodoPage() {
   const fetcher = useFetcher(); // Use this to detect form submission status
   const [selectedTodo, setSelectedTodo] = useState(null);
   useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data) {
-      toast.success(fetcher.data.message);
+    if (fetcher.state === "submitting") {
+      toast.loading("Processing...");
+    } else if (fetcher.state === "idle" && fetcher.data) {
+      toast.dismiss();
+      if (fetcher.data.message) {
+        toast.success(fetcher.data.message);
+      }
     }
   }, [fetcher.state, fetcher.data]);
 
