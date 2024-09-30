@@ -18,14 +18,18 @@
     "@types/mongoose": "^5.11.97",
     "aws-sdk": "^2.1691.0",
     "bcrypt": "^5.1.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
+    "framer-motion": "^11.9.0",
     "isbot": "^4.1.0",
     "mock-aws-s3": "^4.0.2",
     "mongoose": "^8.6.3",
     "prisma": "^5.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "simplex-noise": "^4.0.3",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.12.1",
