@@ -44,8 +44,9 @@ const Login: React.FC = () => {
       toast.error(fetcher.data.error);
     }
   }, [fetcher.data]);
+
   return (
-    <div className="flex w-full bg-zinc-900 flex-wrap text-zinc-200">
+    <div className="flex w-full flex-wrap text-zinc-200">
       <div className="flex w-full flex-col md:w-1/2">
         <div className="flex justify-center pt-12 md:justify-start md:pl-12"></div>
         <div className="my-auto mx-auto flex flex-col justify-center px-6 pt-8 md:justify-start lg:w-[28rem]">
